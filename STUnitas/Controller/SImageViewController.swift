@@ -17,6 +17,20 @@ class SImageViewController: UIViewController {
     private var page = Int()
     private let searchController = UISearchController(searchResultsController: nil)
     private  var timer: Timer?
+    private let backGroundView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        view.backgroundColor = .gray
+        view.clipsToBounds = true
+        view.layer.cornerRadius = 4
+        
+        return view
+    }()
+    private let indicator: UIActivityIndicatorView = {
+        let active = UIActivityIndicatorView(style: .whiteLarge)
+        active.backgroundColor = .clear
+        
+        return active
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +53,9 @@ class SImageViewController: UIViewController {
         imageView.dataSource = self
         imageView.separatorStyle = .none
 
+        view.addSubview(backGroundView)
+        backGroundView.addSubview(indicator)
+        backGroundView.alpha = 0.0
     }
     
     override func viewWillLayoutSubviews() {
@@ -46,9 +63,18 @@ class SImageViewController: UIViewController {
         imageView.snp.makeConstraints {
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
+        backGroundView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            $0.width.height.equalTo(100)
+        }
+        indicator.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
     }
     
     func timerCallback(timer: Timer) {
+        backGroundView.alpha = 1.0
+        indicator.startAnimating()
         timer.invalidate()
         guard let searchText = searchController.searchBar.text else {
             return
@@ -58,6 +84,8 @@ class SImageViewController: UIViewController {
             self?.imageView.scrollsToTop = true
             self?.imageList = searchImage
             self?.imageView.reloadData()
+            self?.backGroundView.alpha = 0.0
+            self?.indicator.stopAnimating()
         }
     }
 }
@@ -138,6 +166,5 @@ extension SImageViewController: UISearchResultsUpdating {
             return
         }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: timerCallback)
-        print("call updateSearchResults")
     }
 }
