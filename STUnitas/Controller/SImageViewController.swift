@@ -80,13 +80,30 @@ class SImageViewController: UIViewController {
             return
         }
         page = 1
-        NetworkManager().getImage(query: searchText, page: "\(page)") { [weak self] searchImage in
+        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: { [weak self] searchImage in
             self?.imageView.scrollsToTop = true
             self?.imageList = searchImage
             self?.imageView.reloadData()
             self?.backGroundView.alpha = 0.0
             self?.indicator.stopAnimating()
+        }, onFailure: { [weak self] error in
+            self?.backGroundView.alpha = 0.0
+            self?.indicator.stopAnimating()
+            switch error {
+            case .cancel: break
+            default :
+                self?.showErrorMesseage(msg: error.localizedDescription)
+            }
+            
+        })
+    }
+    
+    func showErrorMesseage(msg: String) {
+        let alertVC = UIAlertController.init(title: "알림", message: "\(msg)\n잠시 후 다시 시도해주세요", preferredStyle: .alert)
+        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
         }
+        alertVC.addAction(confirm)
+        present(alertVC, animated: true, completion: nil)
     }
 }
 
@@ -111,7 +128,7 @@ extension SImageViewController: UITableViewDataSource {
                 return
         }
         page = page + 1
-        NetworkManager().getImage(query: searchText, page: "\(page)") { [weak self] searchImage in
+        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: { [weak self] searchImage in
             guard let beforeImageList = self?.imageList else {
                 return
             }
@@ -120,12 +137,33 @@ extension SImageViewController: UITableViewDataSource {
             let indexs = (beforeImageList.count..<updateImages.count).map { (Int) -> IndexPath in
                 IndexPath(row: Int, section: 0)
             }
-            
+
             self?.imageView.beginUpdates()
             self?.imageView.insertRows(at: indexs, with: .bottom)
             self?.imageView.endUpdates()
             self?.imageView.scrollToRow(at: IndexPath(row: beforeImageList.count, section: 0), at: .bottom, animated: false)
-        }
+        }, onFailure: { [weak self] error in
+            switch error {
+            case .cancel: break
+            default :
+                self?.showErrorMesseage(msg: error.localizedDescription)
+            }
+        })
+//        NetworkManager().getImage(query: searchText, page: "\(page)") { [weak self] searchImage in
+//            guard let beforeImageList = self?.imageList else {
+//                return
+//            }
+//            let updateImages = beforeImageList + searchImage
+//            self?.imageList = updateImages
+//            let indexs = (beforeImageList.count..<updateImages.count).map { (Int) -> IndexPath in
+//                IndexPath(row: Int, section: 0)
+//            }
+//
+//            self?.imageView.beginUpdates()
+//            self?.imageView.insertRows(at: indexs, with: .bottom)
+//            self?.imageView.endUpdates()
+//            self?.imageView.scrollToRow(at: IndexPath(row: beforeImageList.count, section: 0), at: .bottom, animated: false)
+//        }
     }
 }
 
