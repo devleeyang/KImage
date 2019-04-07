@@ -16,6 +16,8 @@ class SImageViewController: UIViewController {
     private var imageList = Array<ImageInfo>()
     private var page = Int()
     private let searchController = UISearchController(searchResultsController: nil)
+    private  var timer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         searchController.searchResultsUpdater = self
@@ -45,6 +47,21 @@ class SImageViewController: UIViewController {
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
     }
+    
+    func timerCallback(timer: Timer) {
+        timer.invalidate()
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+        page = 1
+        NetworkManager().getImage(query: searchText, page: "\(page)") { [weak self] searchImage in
+            self?.imageView.scrollsToTop
+            self?.imageList = searchImage
+            self?.imageView.reloadData()
+        }
+    }
+}
+
 extension SImageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return imageList.count
@@ -55,6 +72,35 @@ extension SImageViewController: UITableViewDataSource {
         cell.resultImage = imageList[indexPath.row]
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let dataCount = imageList.count - 1
+        guard
+            page < 50,
+            indexPath.row == dataCount,
+            let searchText = searchController.searchBar.text
+            else {
+                return
+        }
+        page = page + 1
+        NetworkManager().getImage(query: searchText, page: "\(page)") { [weak self] searchImage in
+            guard let beforeImageList = self?.imageList else {
+                return
+            }
+            let updateImages = beforeImageList + searchImage
+            self?.imageList = updateImages
+            let indexs = (beforeImageList.count..<updateImages.count).map { (Int) -> IndexPath in
+                IndexPath(row: Int, section: 0)
+            }
+            
+            self?.imageView.beginUpdates()
+            self?.imageView.insertRows(at: indexs, with: .bottom)
+            self?.imageView.endUpdates()
+            self?.imageView.scrollToRow(at: IndexPath(row: beforeImageList.count, section: 0), at: .bottom, animated: false)
+        }
+    }
+}
+
 extension SImageViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -67,5 +113,14 @@ extension SImageViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     }
 }
+
+extension SImageViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if timer != nil {
+            timer?.invalidate()
+            timer = nil
+        }
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: timerCallback)
     }
 }
