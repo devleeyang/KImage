@@ -12,7 +12,6 @@ import Alamofire
 class NetworkManager {
     func getImage(query: String, page: String, onSuccess: @escaping ([ImageInfo]) -> Void, onFailure: @escaping (SearchError) -> Void) {
         if let encodeString = query.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed) {
-            print(encodeString)
             get(path: "v2/search/image?query=\(encodeString)&page=\(page)", onSuccess: { (data) in
                 do {
                     let imageResponse = try JSONDecoder().decode(SearchImageInfo.self, from: data)

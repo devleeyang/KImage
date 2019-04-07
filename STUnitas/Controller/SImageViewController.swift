@@ -123,6 +123,7 @@ extension SImageViewController: UITableViewDataSource {
         guard
             page < 50,
             indexPath.row == dataCount,
+            imageList.count % 80 == 0,
             let searchText = searchController.searchBar.text
             else {
                 return
@@ -141,7 +142,7 @@ extension SImageViewController: UITableViewDataSource {
             self?.imageView.beginUpdates()
             self?.imageView.insertRows(at: indexs, with: .bottom)
             self?.imageView.endUpdates()
-            self?.imageView.scrollToRow(at: IndexPath(row: beforeImageList.count, section: 0), at: .bottom, animated: false)
+            self?.imageView.scrollToRow(at: IndexPath(row: dataCount, section: 0), at: .bottom, animated: false)
         }, onFailure: { [weak self] error in
             switch error {
             case .cancel: break
@@ -149,21 +150,6 @@ extension SImageViewController: UITableViewDataSource {
                 self?.showErrorMesseage(msg: error.localizedDescription)
             }
         })
-//        NetworkManager().getImage(query: searchText, page: "\(page)") { [weak self] searchImage in
-//            guard let beforeImageList = self?.imageList else {
-//                return
-//            }
-//            let updateImages = beforeImageList + searchImage
-//            self?.imageList = updateImages
-//            let indexs = (beforeImageList.count..<updateImages.count).map { (Int) -> IndexPath in
-//                IndexPath(row: Int, section: 0)
-//            }
-//
-//            self?.imageView.beginUpdates()
-//            self?.imageView.insertRows(at: indexs, with: .bottom)
-//            self?.imageView.endUpdates()
-//            self?.imageView.scrollToRow(at: IndexPath(row: beforeImageList.count, section: 0), at: .bottom, animated: false)
-//        }
     }
 }
 
