@@ -11,12 +11,15 @@ import Alamofire
 
 class NetworkManager {
     func getImage(query: String, page: String, completion: @escaping ([ImageInfo]) -> Void) {
-        get(path: "v2/search/image?query=\(query)&page=\(page)") { (data) in
-            if let imageResponse = try? JSONDecoder().decode(SearchImageInfo.self, from: data) {
-                let imageList = imageResponse.documents.map { image -> ImageInfo in
-                    return ImageInfo(imageURL: image.imageURL, height: image.height, width: image.width)
+        if let encodeString = query.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed) {
+            print(encodeString)
+            get(path: "v2/search/image?query=\(encodeString)&page=\(page)") { (data) in
+                if let imageResponse = try? JSONDecoder().decode(SearchImageInfo.self, from: data) {
+                    let imageList = imageResponse.documents.map { image -> ImageInfo in
+                        return ImageInfo(imageURL: image.imageURL, height: image.height, width: image.width)
+                    }
+                    completion(imageList)
                 }
-                completion(imageList)
             }
         }
     }
