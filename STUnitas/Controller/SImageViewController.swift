@@ -55,7 +55,7 @@ class SImageViewController: UIViewController {
         }
         page = 1
         NetworkManager().getImage(query: searchText, page: "\(page)") { [weak self] searchImage in
-            self?.imageView.scrollsToTop
+            self?.imageView.scrollsToTop = true
             self?.imageList = searchImage
             self?.imageView.reloadData()
         }
@@ -104,13 +104,20 @@ extension SImageViewController: UITableViewDataSource {
 extension SImageViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        let imageInfo = imageList[indexPath.row]
+        return (UIScreen.main.bounds.size.width * CGFloat(imageInfo.height)) / CGFloat(imageInfo.width)
     }
 }
 
 extension SImageViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if timer != nil {
+            timer?.invalidate()
+            timer = nil
+        }
+        imageList.removeAll()
+        imageView.reloadData()
     }
 }
 
@@ -121,6 +128,16 @@ extension SImageViewController: UISearchResultsUpdating {
             timer?.invalidate()
             timer = nil
         }
+        
+        guard
+            let searchText = searchController.searchBar.text,
+            searchText.count > 0
+            else {
+            imageList.removeAll()
+            imageView.reloadData()
+            return
+        }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: timerCallback)
+        print("call updateSearchResults")
     }
 }
