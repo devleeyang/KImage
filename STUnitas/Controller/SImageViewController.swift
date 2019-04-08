@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class SImageViewController: UIViewController {
 
@@ -51,6 +52,7 @@ class SImageViewController: UIViewController {
         imageView.keyboardDismissMode = .onDrag
         imageView.delegate = self
         imageView.dataSource = self
+        imageView.prefetchDataSource = self
         imageView.separatorStyle = .none
 
         view.addSubview(backGroundView)
@@ -190,5 +192,15 @@ extension SImageViewController: UISearchResultsUpdating {
             return
         }
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: timerCallback)
+    }
+}
+
+extension SImageViewController : UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        let resources = imageList.map {
+            return ImageResource(downloadURL: URL(string: $0.imageURL)!, cacheKey: $0.imageURL)
+        }
+        let prefetcher = ImagePrefetcher(resources: resources)
+        prefetcher.start()
     }
 }

@@ -14,7 +14,8 @@ class SImageCell: UITableViewCell {
     var resultImage: ImageInfo? {
         didSet {
             if let image = resultImage {
-                searchImg.kf.setImage(with: URL(string: image.imageURL))
+                let resource = ImageResource(downloadURL: URL(string: image.imageURL)!, cacheKey: image.imageURL)
+                searchImg.kf.setImage(with: resource)
             }
         }
     }
