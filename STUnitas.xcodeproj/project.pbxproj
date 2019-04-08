@@ -20,6 +20,7 @@
 		EE02819B2259C871008AF8E3 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281962259C871008AF8E3 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE02819C2259C871008AF8E3 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281972259C871008AF8E3 /* SnapKit.framework */; };
 		EE02819D2259C871008AF8E3 /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281972259C871008AF8E3 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EE0281A3225A481A008AF8E3 /* SearchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0281A2225A481A008AF8E3 /* SearchError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +52,7 @@
 		EE0281952259C871008AF8E3 /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
 		EE0281962259C871008AF8E3 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		EE0281972259C871008AF8E3 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
+		EE0281A2225A481A008AF8E3 /* SearchError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				EE0281912259C732008AF8E3 /* NetworkManager.swift */,
+				EE0281A2225A481A008AF8E3 /* SearchError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -230,6 +233,7 @@
 			files = (
 				EE02818E2259C707008AF8E3 /* SImageViewController.swift in Sources */,
 				EE0281942259C7AA008AF8E3 /* SearchImageInfo.swift in Sources */,
+				EE0281A3225A481A008AF8E3 /* SearchError.swift in Sources */,
 				EE0281902259C71C008AF8E3 /* SImageCell.swift in Sources */,
 				EE0281922259C732008AF8E3 /* NetworkManager.swift in Sources */,
 				EE0281782259C2F8008AF8E3 /* AppDelegate.swift in Sources */,

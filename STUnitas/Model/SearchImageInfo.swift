@@ -8,7 +8,9 @@
 
 import Foundation
 
-typealias SearchImageInfo = [Document]
+struct SearchImageInfo: Codable {
+    let documents: [Document]
+}
 
 struct Document: Codable {
     let height: Int
