@@ -61,10 +61,7 @@ class SImageViewController: UIViewController {
         view.addSubview(backGroundView)
         backGroundView.addSubview(indicator)
         backGroundView.alpha = 0.0
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+        
         imageView.snp.makeConstraints {
             $0.top.bottom.leading.trailing.equalToSuperview()
         }

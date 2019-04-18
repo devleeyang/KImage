@@ -32,17 +32,13 @@ class SImageCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(searchImg)
+        searchImg.snp.makeConstraints {
+            $0.top.leading.bottom.trailing.equalToSuperview()
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        searchImg.snp.makeConstraints {
-            $0.top.leading.bottom.trailing.equalToSuperview()
-        }
     }
     
     override func prepareForReuse() {
