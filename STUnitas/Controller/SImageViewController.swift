@@ -75,32 +75,19 @@ class SImageViewController: UIViewController {
         backGroundView.alpha = 1.0
         indicator.startAnimating()
         timer.invalidate()
-        guard let searchText = searchController.searchBar.text else {
-            return
-        }
         page = 1
-        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: { [weak self] searchImage in
+        getSearchImage { [weak self] searchImage in
             self?.imageView.scrollsToTop = true
             self?.imageList = searchImage
             self?.imageView.reloadData()
             self?.backGroundView.alpha = 0.0
             self?.indicator.stopAnimating()
-        }, onFailure: { [weak self] error in
-            self?.backGroundView.alpha = 0.0
-            self?.indicator.stopAnimating()
-            switch error {
-            case .cancel: break
-            default :
-                self?.showErrorMesseage(msg: error.localizedDescription)
-            }
-            
-        })
+        }
     }
     
     func showErrorMesseage(msg: String) {
         let alertVC = UIAlertController.init(title: "알림", message: "\(msg)\n잠시 후 다시 시도해주세요", preferredStyle: .alert)
-        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
-        }
+        let confirm = UIAlertAction(title: "확인", style: .default)
         alertVC.addAction(confirm)
         present(alertVC, animated: true, completion: nil)
     }
@@ -122,13 +109,12 @@ extension SImageViewController: UITableViewDataSource {
         guard
             page < 50,
             indexPath.row == dataCount,
-            imageList.count % 80 == 0,
-            let searchText = searchController.searchBar.text
+            imageList.count % 80 == 0
             else {
                 return
         }
         page = page + 1
-        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: { [weak self] searchImage in
+        getSearchImage { [weak self] searchImage in
             guard let beforeImageList = self?.imageList else {
                 return
             }
@@ -137,15 +123,26 @@ extension SImageViewController: UITableViewDataSource {
             let indexs = (beforeImageList.count..<updateImages.count).map { (Int) -> IndexPath in
                 IndexPath(row: Int, section: 0)
             }
-
+            
             self?.imageView.beginUpdates()
             self?.imageView.insertRows(at: indexs, with: .bottom)
             self?.imageView.endUpdates()
             self?.imageView.scrollToRow(at: IndexPath(row: dataCount, section: 0), at: .bottom, animated: false)
+        }
+    }
+    
+    private func getSearchImage(onData: @escaping ([ImageInfo]) -> Void) {
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: {
+            onData($0)
         }, onFailure: { [weak self] error in
             switch error {
             case .cancel: break
             default :
+                self?.backGroundView.alpha = 0.0
+                self?.indicator.stopAnimating()
                 self?.showErrorMesseage(msg: error.localizedDescription)
             }
         })
