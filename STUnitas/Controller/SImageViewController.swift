@@ -13,9 +13,12 @@ import Kingfisher
 class SImageViewController: UIViewController {
 
     private var imageView = UITableView()
+    private lazy var imageView = UITableView()
     private let listCellId = "SImageCell"
     private var imageList = Array<ImageInfo>()
     private var page = Int()
+    private lazy var imageList = Array<ImageInfo>()
+    private lazy var page = Int()
     private let searchController = UISearchController(searchResultsController: nil)
     private  var timer: Timer?
     private let backGroundView: UIView = {
