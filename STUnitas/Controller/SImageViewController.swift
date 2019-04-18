@@ -163,10 +163,7 @@ extension SImageViewController: UITableViewDelegate {
 extension SImageViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
+        timer?.invalidate()
         imageList.removeAll()
         imageView.reloadData()
     }
@@ -175,11 +172,7 @@ extension SImageViewController: UISearchBarDelegate {
 extension SImageViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
-        
+        timer?.invalidate()
         guard
             let searchText = searchController.searchBar.text,
             searchText.count > 0
