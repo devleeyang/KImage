@@ -12,15 +12,12 @@ import Kingfisher
 
 class SImageViewController: UIViewController {
 
-    private var imageView = UITableView()
     private lazy var imageView = UITableView()
     private let listCellId = "SImageCell"
-    private var imageList = Array<ImageInfo>()
-    private var page = Int()
     private lazy var imageList = Array<ImageInfo>()
     private lazy var page = Int()
     private let searchController = UISearchController(searchResultsController: nil)
-    private  var timer: Timer?
+    private var timer: Timer?
     private let backGroundView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         view.backgroundColor = .gray

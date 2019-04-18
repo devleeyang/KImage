@@ -20,7 +20,6 @@ class SImageCell: UITableViewCell {
         }
     }
     
-    private let searchImg: UIImageView = {
     private var searchImg: UIImageView = {
         let imgView = UIImageView()
         imgView.contentMode = .scaleAspectFit
