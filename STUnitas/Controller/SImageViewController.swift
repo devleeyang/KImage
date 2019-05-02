@@ -14,10 +14,10 @@ class SImageViewController: UIViewController {
 
     private lazy var imageView = UITableView()
     private let listCellId = "SImageCell"
-    private lazy var imageList = Array<ImageInfo>()
-    private lazy var page = Int()
+    private var imageList = Array<ImageInfo>()
+    private var page = Int()
     private let searchController = UISearchController(searchResultsController: nil)
-    private var timer: Timer?
+    private lazy var timer = Timer()
     private let backGroundView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         view.backgroundColor = .gray
@@ -160,7 +160,7 @@ extension SImageViewController: UITableViewDelegate {
 extension SImageViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        timer?.invalidate()
+        timer.invalidate()
         imageList.removeAll()
         imageView.reloadData()
     }
@@ -169,7 +169,7 @@ extension SImageViewController: UISearchBarDelegate {
 extension SImageViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        timer?.invalidate()
+        timer.invalidate()
         guard
             let searchText = searchController.searchBar.text,
             searchText.count > 0

@@ -32,7 +32,7 @@ class SImageCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(searchImg)
         searchImg.snp.makeConstraints {
-            $0.top.leading.bottom.trailing.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
     }
     
