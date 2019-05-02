@@ -12,12 +12,12 @@ import Kingfisher
 
 class SImageViewController: UIViewController {
 
-    private var imageView = UITableView()
+    private lazy var imageView = UITableView()
     private let listCellId = "SImageCell"
     private var imageList = Array<ImageInfo>()
     private var page = Int()
     private let searchController = UISearchController(searchResultsController: nil)
-    private  var timer: Timer?
+    private lazy var timer = Timer()
     private let backGroundView: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         view.backgroundColor = .gray
@@ -58,10 +58,7 @@ class SImageViewController: UIViewController {
         view.addSubview(backGroundView)
         backGroundView.addSubview(indicator)
         backGroundView.alpha = 0.0
-    }
-    
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+        
         imageView.snp.makeConstraints {
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
@@ -78,32 +75,19 @@ class SImageViewController: UIViewController {
         backGroundView.alpha = 1.0
         indicator.startAnimating()
         timer.invalidate()
-        guard let searchText = searchController.searchBar.text else {
-            return
-        }
         page = 1
-        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: { [weak self] searchImage in
+        getSearchImage { [weak self] searchImage in
             self?.imageView.scrollsToTop = true
             self?.imageList = searchImage
             self?.imageView.reloadData()
             self?.backGroundView.alpha = 0.0
             self?.indicator.stopAnimating()
-        }, onFailure: { [weak self] error in
-            self?.backGroundView.alpha = 0.0
-            self?.indicator.stopAnimating()
-            switch error {
-            case .cancel: break
-            default :
-                self?.showErrorMesseage(msg: error.localizedDescription)
-            }
-            
-        })
+        }
     }
     
     func showErrorMesseage(msg: String) {
         let alertVC = UIAlertController.init(title: "알림", message: "\(msg)\n잠시 후 다시 시도해주세요", preferredStyle: .alert)
-        let confirm = UIAlertAction(title: "확인", style: .default) { _ in
-        }
+        let confirm = UIAlertAction(title: "확인", style: .default)
         alertVC.addAction(confirm)
         present(alertVC, animated: true, completion: nil)
     }
@@ -125,13 +109,12 @@ extension SImageViewController: UITableViewDataSource {
         guard
             page < 50,
             indexPath.row == dataCount,
-            imageList.count % 80 == 0,
-            let searchText = searchController.searchBar.text
+            imageList.count % 80 == 0
             else {
                 return
         }
         page = page + 1
-        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: { [weak self] searchImage in
+        getSearchImage { [weak self] searchImage in
             guard let beforeImageList = self?.imageList else {
                 return
             }
@@ -140,15 +123,26 @@ extension SImageViewController: UITableViewDataSource {
             let indexs = (beforeImageList.count..<updateImages.count).map { (Int) -> IndexPath in
                 IndexPath(row: Int, section: 0)
             }
-
+            
             self?.imageView.beginUpdates()
             self?.imageView.insertRows(at: indexs, with: .bottom)
             self?.imageView.endUpdates()
             self?.imageView.scrollToRow(at: IndexPath(row: dataCount, section: 0), at: .bottom, animated: false)
+        }
+    }
+    
+    private func getSearchImage(onData: @escaping ([ImageInfo]) -> Void) {
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+        NetworkManager().getImage(query: searchText, page: "\(page)", onSuccess: {
+            onData($0)
         }, onFailure: { [weak self] error in
             switch error {
             case .cancel: break
             default :
+                self?.backGroundView.alpha = 0.0
+                self?.indicator.stopAnimating()
                 self?.showErrorMesseage(msg: error.localizedDescription)
             }
         })
@@ -166,10 +160,7 @@ extension SImageViewController: UITableViewDelegate {
 extension SImageViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
+        timer.invalidate()
         imageList.removeAll()
         imageView.reloadData()
     }
@@ -178,11 +169,7 @@ extension SImageViewController: UISearchBarDelegate {
 extension SImageViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
-        if timer != nil {
-            timer?.invalidate()
-            timer = nil
-        }
-        
+        timer.invalidate()
         guard
             let searchText = searchController.searchBar.text,
             searchText.count > 0

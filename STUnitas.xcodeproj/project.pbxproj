@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CDD5C44D227AB1DC00062C60 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281962259C871008AF8E3 /* Alamofire.framework */; };
+		CDD5C44E227AB1DC00062C60 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281962259C871008AF8E3 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CDD5C44F227AB1DC00062C60 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281952259C871008AF8E3 /* Kingfisher.framework */; };
+		CDD5C450227AB1DC00062C60 /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281952259C871008AF8E3 /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CDD5C451227AB1DC00062C60 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281972259C871008AF8E3 /* SnapKit.framework */; };
+		CDD5C452227AB1DC00062C60 /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281972259C871008AF8E3 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE0281782259C2F8008AF8E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0281772259C2F8008AF8E3 /* AppDelegate.swift */; };
 		EE02817F2259C2F9008AF8E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EE02817E2259C2F9008AF8E3 /* Assets.xcassets */; };
 		EE0281822259C2F9008AF8E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE0281802259C2F9008AF8E3 /* LaunchScreen.storyboard */; };
@@ -14,25 +20,19 @@
 		EE0281902259C71C008AF8E3 /* SImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE02818F2259C71C008AF8E3 /* SImageCell.swift */; };
 		EE0281922259C732008AF8E3 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0281912259C732008AF8E3 /* NetworkManager.swift */; };
 		EE0281942259C7AA008AF8E3 /* SearchImageInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0281932259C7AA008AF8E3 /* SearchImageInfo.swift */; };
-		EE0281982259C871008AF8E3 /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281952259C871008AF8E3 /* Kingfisher.framework */; };
-		EE0281992259C871008AF8E3 /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281952259C871008AF8E3 /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EE02819A2259C871008AF8E3 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281962259C871008AF8E3 /* Alamofire.framework */; };
-		EE02819B2259C871008AF8E3 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281962259C871008AF8E3 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EE02819C2259C871008AF8E3 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281972259C871008AF8E3 /* SnapKit.framework */; };
-		EE02819D2259C871008AF8E3 /* SnapKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EE0281972259C871008AF8E3 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EE0281A3225A481A008AF8E3 /* SearchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0281A2225A481A008AF8E3 /* SearchError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		EE02819E2259C871008AF8E3 /* Embed Frameworks */ = {
+		CDD5C453227AB1DC00062C60 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				EE02819D2259C871008AF8E3 /* SnapKit.framework in Embed Frameworks */,
-				EE0281992259C871008AF8E3 /* Kingfisher.framework in Embed Frameworks */,
-				EE02819B2259C871008AF8E3 /* Alamofire.framework in Embed Frameworks */,
+				CDD5C452227AB1DC00062C60 /* SnapKit.framework in Embed Frameworks */,
+				CDD5C450227AB1DC00062C60 /* Kingfisher.framework in Embed Frameworks */,
+				CDD5C44E227AB1DC00062C60 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,9 +60,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE02819C2259C871008AF8E3 /* SnapKit.framework in Frameworks */,
-				EE0281982259C871008AF8E3 /* Kingfisher.framework in Frameworks */,
-				EE02819A2259C871008AF8E3 /* Alamofire.framework in Frameworks */,
+				CDD5C451227AB1DC00062C60 /* SnapKit.framework in Frameworks */,
+				CDD5C44F227AB1DC00062C60 /* Kingfisher.framework in Frameworks */,
+				CDD5C44D227AB1DC00062C60 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,8 +146,8 @@
 				EE0281702259C2F8008AF8E3 /* Sources */,
 				EE0281712259C2F8008AF8E3 /* Frameworks */,
 				EE0281722259C2F8008AF8E3 /* Resources */,
-				EE02819E2259C871008AF8E3 /* Embed Frameworks */,
 				EE02819F2259C878008AF8E3 /* ShellScript */,
+				CDD5C453227AB1DC00062C60 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,6 +170,7 @@
 				TargetAttributes = {
 					EE0281732259C2F8008AF8E3 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -375,7 +376,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GQ2YK62N76;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -397,7 +398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GQ2YK62N76;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
